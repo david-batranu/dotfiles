@@ -1,0 +1,26 @@
+[user]
+	name = David Batranu
+	email = david.batranu@eaudeweb.ro
+	signingkey = 5896EDD51D1058F3
+
+[commit]
+    gpgsign = true
+
+[color]
+	ui = auto
+
+[http]
+	sslVerify = false
+
+[core]
+	autocrlf = input
+	excludesfile = ~/.gitignore
+
+[push]
+	default = simple
+
+[pull]
+    rebase = true
+
+[web]
+	browser = chromium

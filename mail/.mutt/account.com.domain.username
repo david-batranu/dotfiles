@@ -1,0 +1,22 @@
+source "gpg -q -d ~/.mutt/com.domain.username/secrets.gpg |"
+
+# SMTP
+set smtp_url = "smtps://username@domain.com@smtp.domain.com:465"
+
+set from = "username@domain.com"
+set realname = "User Name"
+
+# Maildir
+set folder = "~/.Mail/account/"
+set mbox = "+INBOX"
+set record = "+Sent"
+set postponed = "+Drafts"
+set spoolfile = "~/.Mail/account/INBOX"
+set timeout = 360
+set mail_check = 360
+
+set signature = "~/.mutt/com.domain.username/sig.txt"
+set sig_on_top = yes
+
+# Use TLS
+# set ssl_force_tls=yes

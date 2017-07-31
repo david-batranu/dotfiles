@@ -1,0 +1,368 @@
+call plug#begin('~/.vim/plugged')
+
+"Plug 'kien/ctrlp.vim'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'jeetsukumaran/vim-gazetteer'
+" Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'Yggdroot/indentLine'
+Plug 'groenewege/vim-less'
+"Plugin 'Lokaltog/vim-powerline'
+Plug 'amiorin/vim-project'
+Plug 'zeis/vim-kolor'
+Plug 's3rvac/vim-syntax-redminewiki'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'flazz/vim-colorschemes'
+Plug 'chriskempson/base16-vim'
+Plug 'aaronj1335/underscore-templates.vim'
+Plug 'tyru/current-func-info.vim'
+Plug 'nice/sweater'
+"Plug 'bling/vim-airline'
+Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-surround'
+Plug 'mbbill/undotree'
+"Plug 'valloric/MatchTagAlways'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'rawsource/Monkey-VIM'
+Plug 'airblade/vim-gitgutter'
+" Plug 'rking/ag.vim'
+" Plug 'Chun-Yang/vim-action-ag'
+" Plug 'mileszs/ack.vim'
+Plug 'wellle/targets.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-fugitive'
+"Plug 'tmhedberg/SimpylFold'
+Plug 'tomtom/tcomment_vim'
+"Plug 'alvan/vim-closetag'
+"Plug 'Townk/vim-autoclose'
+Plug 'mattn/emmet-vim'
+" Plug 'davidhalter/jedi-vim'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'gregsexton/MatchTag'
+Plug 'AlessandroYorba/Alduin'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" Plug 'terryma/vim-multiple-cursors'
+Plug 'osyo-manga/vim-over'
+Plug 'w0rp/ale' " async syntax checker
+" Plug 'maralla/completor.vim' " async autocomplete
+
+
+call plug#end()
+
+set completeopt=menu,menuone
+
+" mutli-cursor
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Advanced customization using autoload functions
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+
+filetype on
+filetype plugin on
+filetype plugin indent on
+syntax on
+
+
+set nowrap
+set nocursorcolumn
+set nocursorline
+set synmaxcol=200
+"syntax sync minlines=256
+
+
+set undodir=~/.vim/backups
+set undofile
+
+" add - as keyword so that these-kinds-of-strings
+" are considered words
+set iskeyword+=-
+
+"" airline
+"let g:airline#extensions#tabline#enabled = 1
+"" end airline
+
+let g:indentLine_faster = 1
+
+
+" let g:syntastic_python_checkers = ['flake8']
+" let g:syntastic_python_checkers = ['pylint', 'pylint2', 'flake8']
+
+if has('gui_running')
+    set background=dark
+else
+    set background=dark
+endif
+
+
+"colorscheme colorful
+"colorscheme sweater
+"colorscheme kolor
+"colorscheme beauty256
+"colorscheme tutticolori
+"colorscheme blackboard
+"colorscheme rdark
+"colorscheme wombat
+"colorscheme espresso
+"colorscheme solarized
+"colorscheme zenburn
+"colorscheme github
+"colorscheme slate
+"colorscheme codeschool
+"colorscheme grb256
+"colorscheme blue
+"colorscheme lucius
+"colorscheme proton
+"colorscheme base16-eighties
+"colorscheme base16-brewer
+"colorscheme lucius
+"colorscheme base16-tomorrow
+"colorscheme base16-bright
+"colorscheme ego
+"colorscheme leo
+"colorscheme coldgreen
+"colorscheme gotham
+"colorscheme bluegreen
+colorscheme badwolf
+
+
+"Replaces the default hi Special color to Soft Red
+"let g:alduin_Shout_Windhelm = 1
+"colorscheme alduin
+
+
+set go-=m
+set go-=T
+set go-=r
+set go-=L
+
+set hls
+set nu
+set rnu
+set hid
+set wildmenu
+set ruler
+set showmatch
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+set nolazyredraw
+set smartindent
+set autoindent
+set smarttab
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set incsearch
+set ignorecase
+set smartcase
+set encoding=utf-8
+set fileencoding=utf-8
+set clipboard=unnamedplus
+
+set nocompatible
+""""let g:Powerline_symbols = 'fancy'
+""let g:indentLine_char = '»'
+
+" powerline fix (probably for buffer stuff)
+set laststatus=2
+" 256 color support
+set t_Co=256
+
+nnoremap ; :
+"ctrlp
+"nnoremap t :CtrlP $pwd<CR>
+"nnoremap T :CtrlPBuffer<CR>
+
+"fzf
+nnoremap t :Files<CR>
+nnoremap <C-G> :GitFiles<CR>
+nnoremap T :Buffers<CR>
+nnoremap <C-]> :execute 'tj' expand('<cword>')<CR>zv
+vnoremap <Leader>] yq/p<ESC><CR>
+
+let g:EasyMotion_smartcase = 1
+
+"closetag.vim
+let g:closetag_filenames = "*.html,*.xhtml,*.pt,*.zpt,*.xml,*.mtpl,*.tmpl"
+
+set wildmenu
+"set wildmode=list:longest,full
+set wildmode=longest:full,full
+set mouse=a
+
+" disable backup and swap
+set nobackup
+set nowb
+set noswapfile
+
+"set guifont=Droid\ Sans\ Mono\ 11
+"set guifont=Monaco\ 10
+"set guifont=Monaco\ 9
+"set guifont=Consolas\ 14
+"set guifont=Consolas\ 10
+"set guifont=M+\ 1mn\ 12,light\ 12
+"set guifont=M+\ 1m\ 8,light\ 8
+"set guifont=M+\ 2m\ 10,light\ 10
+"set guifont=Anka/Coder\ Narrow\ 8
+"set guifont=Anka/Coder\ 8
+"set guifont=Consolas\ 14
+"set guifont=Terminus\ 11
+"set guifont=Terminus\ 9
+"set guifont=Terminus\ 8
+"set guifont=Ubuntu\ Mono\ 10
+"set guifont=Ubuntu\ Mono\ 8
+set guifont=Terminus\ 12
+"set guifont=Menlo\ for\ Powerline\ 9
+"set guifont=Mutex\ 10
+"set guifont=Pointfree\ 10
+"set guifont=GohuFont\ 10
+"set guifont=White\ Rabbit\ 12
+"set guifont=Liberation\ Mono\ 10
+"set guifont=Audimat\ Mono\ 12
+"set guifont=Consola\ Mono\ 12
+"set guifont=Hack\ 12
+"set guifont=Inconsolata\ 10
+"set guifont=Input\ Mono\ Regular\ 12
+"set guifont=Ubuntu\ Mono\ Regular\ 12
+"set guifont=Input\ Mono\ Compressed\ Regular\ 12
+"set guifont=DejaVu\ Sans\ Mono\ 10
+"set guifont=Tamsyn\ 12
+"set guifont=Dina\ 9
+"set guifont=Px437\ IBM\ VGA9\ Regular\ 12
+
+if has('gui_running')
+else
+    "transparent background
+    "hi Normal guibg=NONE ctermbg=NONE
+endif
+
+
+set tags+=./tags;$HOME
+
+au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+au BufRead,BufNewFile *.json set ft=javascript syntax=javascript
+au BufRead,BufNewFile *.zcml set ft=xml syntax=xml
+au BufRead,BufNewFile *.pt,*.zpt set ft=xhtml syntax=xhtml
+au BufRead,BufNewFile *.jst set ft=htmlcheetah syntax=htmlcheetah
+au BufRead,BufNewFile *.vpy set ft=python syntax=python colorcolumn=80
+
+
+" Rainbow parantheses plugin
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+
+let Tlist_Use_Right_Window = 1
+
+"map <F2> s<span lang="en" class="multilang">
+"map <F3> s<span lang="fr" class="multilang">
+"map <F4> s<span lang="es" class="multilang">
+"map <F5> :set filetype=htmldjango<CR>
+map <F6> oimport ipdb; ipdb.set_trace()<ESC>
+map <s-F6> oimport rpdb2; rpdb2.start_embedded_debugger("000123")<ESC>
+nnoremap <F8> :bd<CR>
+nnoremap <F9> :TagbarToggle<CR>
+nnoremap <F10> :UndotreeToggle<cr>
+"map <F10> \be
+"map <F11> :!ctags -R -f ./tags `python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"`<CR>
+
+
+"autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2
+autocmd FileType rst setlocal ts=2 sts=2 sw=2
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html setlocal ts=2 sts=2 sw=2
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml setlocal ts=2 sts=2 sw=2
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2
+
+" save registers
+set viminfo=%,'50,\"100,n~/.viminfo
+
+""let g:miniBufExplMapWindowNavVim = 1
+""let g:miniBufExplMapWindowNavArrows = 1
+""let g:miniBufExplMapCTabSwitchBufs = 1
+""let g:miniBufExplModSelTarget = 1
+
+
+
+"buftabs
+noremap <f1> :bprev<CR>
+noremap <f2> :bnext<CR>
+
+noremap <s-f1> :tabprevious<CR>
+noremap <s-f2> :tabnext<CR>
+
+
+map <C-J> <C-W>j
+map <C-K> <C-W>k
+map <C-L> <C-W>l
+map <C-H> <C-W>h
+
+
+nnoremap <C-g>f :echo cfi#format("%s", "")<CR>
+
+
+" Strip trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+nmap <silent> <leader>x :%!tidy -qi -xml --show-errors 0<CR>
+vmap <silent> <leader>x :'<,'>!tidy -qi -xml --show-errors 0<CR>
+
+"let g:BASH_Ctrl_j = 'off'
+"nnoremap <C-j> oimport ipdb; ipdb.set_trace()<ESC>
+
+" python << EOF
+" import os
+" import sys
+" import vim
+" for p in sys.path:
+"     if os.path.isdir(p):
+"         vim.command(r"set path+=%s" % (p.replace(" ", r"\ ")))
+" # for the omelette zc.buildout recipe
+" if os.path.isdir('parts/omelette'):
+"     vim.command(r"set path+=%s" % 'parts/omelette')
+" EOF
+
+command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
+

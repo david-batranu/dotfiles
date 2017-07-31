@@ -1,0 +1,137 @@
+set completeopt=menu,menuone
+
+filetype on
+filetype plugin on
+filetype plugin indent on
+
+" Fix for # deindent
+":inoremap # X^H#"
+inoremap # X#
+
+sy on
+colorscheme peachpuff
+
+set nowrap
+set nocursorcolumn
+set nocursorline
+set synmaxcol=200
+"syntax sync minlines=256
+
+" " automatic folds
+" set foldnestmax=1
+" set foldmethod=indent
+
+set undodir=~/.vim/backups
+set undofile
+
+set go-=m
+set go-=T
+set go-=r
+set go-=L
+
+set hls
+set nu
+set rnu
+set hid
+set wildmenu
+set ruler
+set showmatch
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+set nolazyredraw
+set smartindent
+set autoindent
+set smarttab
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set incsearch
+set ignorecase
+set smartcase
+set encoding=utf-8
+set fileencoding=utf-8
+set clipboard=unnamedplus
+
+set nocompatible
+
+nnoremap <C-]> :execute 'tj' expand('<cword>')<CR>zv
+vnoremap <Leader>] yq/p<ESC><CR>
+
+set wildmenu
+"set wildmode=list:longest,full
+set wildmode=longest:full,full
+set mouse=a
+
+" disable backup and swap
+set nobackup
+set nowb
+set noswapfile
+
+set tags+=./tags;$HOME
+
+au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+au BufRead,BufNewFile *.json set ft=javascript syntax=javascript
+au BufRead,BufNewFile *.zcml set ft=xml syntax=xml
+au BufRead,BufNewFile *.pt,*.zpt set ft=xhtml syntax=xhtml
+au BufRead,BufNewFile *.jst set ft=htmlcheetah syntax=htmlcheetah
+au BufRead,BufNewFile *.vpy set ft=python syntax=python colorcolumn=80
+
+map <F6> oimport pdb; pdb.set_trace()<ESC>
+map <s-F6> oimport rpdb2; rpdb2.start_embedded_debugger("000123")<ESC>
+nnoremap <F8> :bd<CR>
+
+
+" Highlight 81+columns
+autocmd FileType python let &l:colorcolumn=join(range(81, 255), ",")
+autocmd FileType python highlight ColorColumn ctermbg=black ctermfg=green
+
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2
+autocmd FileType rst setlocal ts=2 sts=2 sw=2
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html setlocal ts=2 sts=2 sw=2
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType css setlocal ts=2 sts=2 sw=2
+autocmd FileType xml setlocal ts=2 sts=2 sw=2
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2
+
+" save registers
+set viminfo=%,'50,\"100,n~/.viminfo
+
+
+"buftabs
+noremap <f1> :bprev<CR>
+noremap <f2> :bnext<CR>
+
+noremap <s-f1> :tabprevious<CR>
+noremap <s-f2> :tabnext<CR>
+
+
+map <C-J> <C-W>j
+map <C-K> <C-W>k
+map <C-L> <C-W>l
+map <C-H> <C-W>h
+
+
+nnoremap <C-g>f :echo cfi#format("%s", "")<CR>
+
+
+" Strip trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+nmap <silent> <leader>x :%!tidy -qi -xml --show-errors 0<CR>
+vmap <silent> <leader>x :'<,'>!tidy -qi -xml --show-errors 0<CR>
+
+command! -nargs=? Filter let @a='' | execute 'g/<args>/y A' | new | setlocal bt=nofile | put! a
