@@ -1,0 +1,184 @@
+call plug#begin()
+
+Plug 'sjl/badwolf'
+Plug 'airblade/vim-gitgutter'
+Plug 'tomtom/tcomment_vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+
+"Dart/Flutter
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'thosakwe/vim-flutter'
+Plug 'natebosch/vim-lsc'
+Plug 'natebosch/vim-lsc-dart'
+
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+call plug#end()
+
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
+
+set guioptions-=m  "menu bar
+set guioptions-=T  "toolbar
+set guioptions-=r  "scrollbar
+
+set termguicolors
+colorscheme badwolf
+
+" Fix for # deindent
+" ":inoremap # X^H#"
+:inoremap # #"
+
+" path
+set path+=/usr/include/x86_64-linux-gnu/,
+
+filetype on
+filetype plugin on
+filetype plugin indent on
+
+set guifont=Cascadia_Code:h11:cANSI:qDRAFT
+
+sy on
+" colorscheme peachpuff
+
+set nowrap
+set nocursorcolumn
+set nocursorline
+set synmaxcol=200
+
+set undodir=~/.vim/backups
+set undofile
+
+set hls
+set nu
+set rnu
+set hid
+set wildmenu
+set ruler
+set showmatch
+set nolazyredraw
+set smartindent
+set autoindent
+set smarttab
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set incsearch
+set ignorecase
+set smartcase
+set encoding=utf-8
+set fileencoding=utf-8
+" set clipboard=unnamedplus
+
+set nocompatible
+
+set wildmenu
+set wildmode=longest:full,full
+set mouse=a
+
+set nobackup
+set nowb
+set noswapfile
+
+" set colorcolumn=80
+
+
+set tags+=./tags;$HOME
+
+au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+au BufRead,BufNewFile *.json set ft=javascript syntax=javascript
+au BufRead,BufNewFile *.zcml set ft=xml syntax=xml
+au BufRead,BufNewFile *.pt,*.zpt set ft=xhtml syntax=xhtml
+au BufRead,BufNewFile *.jst set ft=htmlcheetah syntax=htmlcheetah
+au BufRead,BufNewFile *.vpy set ft=python syntax=python colorcolumn=80
+
+" Save registers
+set viminfo=%,'50,\"100,n~/.viminfo
+
+
+" Strip trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+au BufRead,BufNewFile *.json set ft=javascript syntax=javascript
+au BufRead,BufNewFile *.zcml set ft=xml syntax=xml
+au BufRead,BufNewFile *.pt,*.zpt set ft=xhtml syntax=xhtml
+au BufRead,BufNewFile *.jst set ft=htmlcheetah syntax=htmlcheetah
+au BufRead,BufNewFile *.vpy set ft=python syntax=python colorcolumn=80
+
+map <F6> oimport pdb; pdb.set_trace()<ESC>
+map <s-F6> oimport rpdb2; rpdb2.start_embedded_debugger("000123")<ESC>
+nnoremap <F8> :bd<CR>
+
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2
+autocmd FileType rst setlocal ts=2 sts=2 sw=2
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html setlocal ts=2 sts=2 sw=2
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType css setlocal ts=2 sts=2 sw=2
+autocmd FileType xml setlocal ts=2 sts=2 sw=2
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2
+autocmd FileType dart setlocal ts=2 sts=2 sw=2
+
+
+let g:asyncomplete_auto_popup = 0
+
+let g:lsp_diagnostics_enabled=1
+let g:lsp_diagnostics_echo_cursor=1
+let g:lsp_diagnostics_float_cursor=0
+let g:lsp_diagnostics_float_insert_mode_enabled=0
+let g:lsp_diagnostics_highlights_insert_mode_enabled=0
+let g:lsp_diagnostics_signs_insert_mode_enabled=0
+let g:lsp_diagnostics_virtual_text_echo_cursor=0
+let g:lsp_diagnostics_virtual_text_enabled=0
+let g:lsp_diagnostics_virtual_text_align='right'
+
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go,*.dart :call execute('LspDocumentFormatSync')
+    " autocmd! BufWritePre *.rs,*.go,*.dart :call <SID>lspDiagnosticsAndFormat()
+
+
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
